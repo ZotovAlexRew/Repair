@@ -6,19 +6,22 @@ export const calc = () => {
     const total = document.getElementById('calc-total');
 
     function countTotal() {
-        if (type.options[0].selected !== true && material.options[0].selected !== true && square.value !== '') {
-            total.value = +square.value * type.options[type.selectedIndex].value * material.options[type.selectedIndex].value
-        } else {
+        if (type.options[0].selected !== true && material.options[0].selected !== true && square.value !== '') 
+        {
+            total.value = (+square.value * type.options[type.selectedIndex].value * material.options[type.selectedIndex].value).toFixed(1);
+        } 
+        else 
+        {
             total.value = '0';
         }
     }
 
     if (calcBlock) {
         calcBlock.addEventListener('change', (e) => {
-            if (e.target === type || e.target === material || e.target === square) {
+            if (e.target === type || e.target === material || e.target === square) 
+            {
                 countTotal();
             }
         });
-    }
-    
+    } 
 };

@@ -4,6 +4,7 @@ import { scrol } from './moduls/scroll';
 import { calc } from './moduls/calc';
 import { validation } from './moduls/validation';
 import { sendForm } from './moduls/sendForm';
+import { sliders } from './moduls/sliders';
 
 modal();
 timer('27 march 2022');
@@ -17,3 +18,4 @@ sendForm({
         id: 'calc-total'
     }]
 });
+sliders();

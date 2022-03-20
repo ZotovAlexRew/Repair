@@ -13,13 +13,14 @@ export const timer = (date) => {
         let minutes = Math.floor((timeRemaining / 60) % 60);
         let seconds = Math.floor(timeRemaining % 60);
 
-         if (timeRemaining < 0) {
+         if (timeRemaining < 0) 
+         {
             timeRemaining = 0;
             days = 0;
             hours = 0;
             minutes = 0;
             seconds = 0;
-        }
+         }
         
         return {timeRemaining, days, hours, minutes, seconds};
     };

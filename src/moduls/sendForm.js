@@ -15,7 +15,8 @@ export const sendForm = ({classForm, addInfo = []}) => {
         };
 
         const submitForm = () => {
-            if (inputs.every(input => input.style.border !== '3px solid red')) {
+            if (inputs.every(input => input.style.border !== '3px solid red')) 
+            {
                 const formData = new FormData(form);
                 const formBody = {};
 
@@ -25,11 +26,15 @@ export const sendForm = ({classForm, addInfo = []}) => {
 
                 addInfo.forEach(elem => {
                 const element = document.getElementById(elem.id);
-                if (element) {
-                    if (elem.type === 'block') {
-                    formBody[elem.id] = element.textContent;
-                    } else if (elem.type === 'input'){
-                    formBody[elem.id] = element.value;  
+                if (element) 
+                {
+                    if (elem.type === 'block') 
+                    {
+                        formBody[elem.id] = element.textContent;
+                    } 
+                    else if (elem.type === 'input')
+                    {
+                        formBody[elem.id] = element.value;  
                     }
                 }
             });
@@ -41,14 +46,17 @@ export const sendForm = ({classForm, addInfo = []}) => {
                         });
                     })
                     .catch(error => console.log(error));
-            } else {
+            } 
+            else 
+            {
                 return;
             }
         };
 
         try 
         {
-            if (!form) {
+            if (!form) 
+            {
                 throw new Error('Не найдена форма');
             }
 

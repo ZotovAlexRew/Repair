@@ -14,9 +14,12 @@ export const validation = () => {
         tel.addEventListener('input', (e) => {
             let reg = /[^\d\+]/g;
             e.target.value =  e.target.value.replace(reg, '');
-            if (e.target.value.length > 17) {
+            if (e.target.value.length > 17) 
+            {
                tel.style.border = '3px solid red';
-            } else {
+            } 
+            else 
+            {
                 tel.style.border = '';
             }
         });

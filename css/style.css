@@ -541,6 +541,9 @@ input.error {
   border-radius: 10px;
   margin: 30px 20px 30px;
 }
+.service-block-noActive {
+  display: none;
+}
 .service-image img {
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
