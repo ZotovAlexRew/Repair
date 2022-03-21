@@ -13,9 +13,17 @@ calc();
 validation();
 sendForm({
     classForm: '.form-horizontal',
+    nameForm: '',
     addInfo: [{
-        type: 'input',
         id: 'calc-total'
     }]
+});
+sendForm({
+    classForm: '',
+    nameForm: 'callback-form'
+});
+sendForm({
+    classForm: '',
+    nameForm: 'application-form'
 });
 sliders();
