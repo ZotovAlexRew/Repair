@@ -1,6 +1,14 @@
-export const sendForm = ({classForm, addInfo = []}) => {
-    const forms = document.querySelectorAll(classForm);
-
+export const sendForm = ({classForm = '', nameForm = '', addInfo = []}) => {
+    let forms;
+    if (classForm !== '') 
+    {
+        forms = document.querySelectorAll(classForm);
+    } 
+    else 
+    {
+        forms = document.getElementsByName(nameForm);
+    }
+    
     forms.forEach(form => {
         const inputs = Array.from(form.querySelectorAll('input'));
         inputs.forEach(input => input.required = true);
@@ -15,24 +23,35 @@ export const sendForm = ({classForm, addInfo = []}) => {
         };
 
         const submitForm = () => {
-            if (inputs.every(input => input.style.border !== '3px solid red')) 
-            {
+            if (inputs.every(input => input.style.border !== '3px solid red')) {
                 const formData = new FormData(form);
                 const formBody = {};
 
                 formData.forEach((val, key) => {
                     formBody[key] = val; 
                 });
+                if(nameForm) 
+                {
+                   delete formBody.page;
+                }
+                if (nameForm === 'callback-form') 
+                {
+                   formBody['reason'] = 'call';;
+                } 
+                else if (classForm === '.form-horizontal') 
+                {
+                    formBody['reason'] = 'discount';
+                } 
+                else if (nameForm === 'application-form') 
+                {
+                    formBody['reason'] = 'need a master';
+                }
 
                 addInfo.forEach(elem => {
                 const element = document.getElementById(elem.id);
                 if (element) 
                 {
-                    if (elem.type === 'block') 
-                    {
-                        formBody[elem.id] = element.textContent;
-                    } 
-                    else if (elem.type === 'input')
+                    if (element.value.length >= 1)
                     {
                         formBody[elem.id] = element.value;  
                     }
@@ -44,6 +63,16 @@ export const sendForm = ({classForm, addInfo = []}) => {
                         inputs.forEach(input => {
                             input.value = '';
                         });
+                        addInfo.forEach(elem => {
+                            const element = document.getElementById(elem.id);
+                            if (element) {
+                                const form = document.getElementById('calc');
+                                const inputs = form.querySelectorAll('input');
+                                const selects = form.querySelectorAll('select');
+                                inputs.forEach(input => input.value = '');
+                                selects.forEach(select => select.options[0].selected = true);
+                            }
+                        });
                     })
                     .catch(error => console.log(error));
             } 
@@ -53,8 +82,7 @@ export const sendForm = ({classForm, addInfo = []}) => {
             }
         };
 
-        try 
-        {
+        try {
             if (!form) 
             {
                 throw new Error('Не найдена форма');
@@ -62,12 +90,11 @@ export const sendForm = ({classForm, addInfo = []}) => {
 
             form.addEventListener('submit', (e) => {
                 e.preventDefault();
-                
                 submitForm();
+                return false;
             });
         } 
-        catch (error) 
-        {
+        catch (error) {
             console.log(error.message);
         }
     });

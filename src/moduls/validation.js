@@ -12,7 +12,7 @@ export const validation = () => {
 
     tels.forEach(tel => {
         tel.addEventListener('input', (e) => {
-            let reg = /[^\d\+]/g;
+            let reg = /[^\d\+\(\)]/g;
             e.target.value =  e.target.value.replace(reg, '');
             if (e.target.value.length > 17) 
             {
@@ -20,8 +20,9 @@ export const validation = () => {
             } 
             else 
             {
-                tel.style.border = '';
+                tel.style.border = ''
             }
+            e.target.value =e.target.value[0] + e.target.value.slice(1).replace('+', '');
         });
     });
 

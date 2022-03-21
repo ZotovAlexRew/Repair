@@ -5,6 +5,8 @@ import { calc } from './moduls/calc';
 import { validation } from './moduls/validation';
 import { sendForm } from './moduls/sendForm';
 import { sliders } from './moduls/sliders';
+import { burger } from './moduls/burger';
+import { sliderProfit } from './moduls/sliderProfit';
 
 modal();
 timer('27 march 2022');
@@ -27,3 +29,5 @@ sendForm({
     nameForm: 'application-form'
 });
 sliders();
+burger();
+sliderProfit();

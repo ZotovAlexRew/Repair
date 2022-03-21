@@ -1,6 +1,7 @@
 export const sliders = () => {
     const services = document.getElementById('services');
     const serviceBlocks = document.querySelectorAll('.service-block');
+
     let width = document.documentElement.clientWidth;
 
     function doSlide (countOfSlides) {
@@ -20,20 +21,25 @@ export const sliders = () => {
         activeSlides(serviceBlocks, currentSlide1, currentSlide2, 'service-block-noActive');
 
         services.addEventListener('click', (e) => {
-            if (e.target.closest('.services__arrow--right')) {
+            if (e.target.closest('.services__arrow--right')) 
+            {
                 noActiveSlides(serviceBlocks, currentSlide1, currentSlide2, 'service-block-noActive');
                     currentSlide1 += countOfSlides;
                     currentSlide2 += countOfSlides;
-                if (currentSlide1 >= serviceBlocks.length ||currentSlide2 >= serviceBlocks.length ) {
+                if (currentSlide1 >= serviceBlocks.length ||currentSlide2 >= serviceBlocks.length ) 
+                {
                     currentSlide1 = countOfSlides - countOfSlides;
                     currentSlide2 = countOfSlides - 1;
                 }
                 activeSlides(serviceBlocks, currentSlide1, currentSlide2, 'service-block-noActive');
-            } else if (e.target.closest('.services__arrow--left')) {
+            } 
+            else if (e.target.closest('.services__arrow--left')) 
+            {
                 noActiveSlides(serviceBlocks, currentSlide1, currentSlide2, 'service-block-noActive');
                     currentSlide1 -= countOfSlides;
                     currentSlide2 -= countOfSlides;
-                if (currentSlide1 < 0 ||currentSlide2 < 0 ) {
+                if (currentSlide1 < 0 ||currentSlide2 < 0 ) 
+                {
                     currentSlide1 = serviceBlocks.length-countOfSlides;
                     currentSlide2 = serviceBlocks.length-1;
                 }
