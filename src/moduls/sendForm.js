@@ -17,6 +17,9 @@ export const sendForm = ({classForm = '', nameForm = '', addInfo = []}) => {
             modal.style.display = 'none';
             overlay.style.display = 'none';
         }, 2000);
+        setTimeout(() => {
+            text.textContent = 'Мы гарантируем 100% онфиденциальность. Ваша информация не будет распространяться.';
+        }, 3000);
     }
     
     forms.forEach(form => {
@@ -35,16 +38,27 @@ export const sendForm = ({classForm = '', nameForm = '', addInfo = []}) => {
         const submitForm = () => {
             if (inputs.every(input => input.style.border !== '3px solid red')) 
             {
+                
                 const formData = new FormData(form);
                 const formBody = {};
 
                 formData.forEach((val, key) => {
-                    if (val !== '') 
+                    if (key === 'phone') 
+                    {
+                        val = val.split('').map(el => +el).filter(el => el).join('');
+                        formBody[key] = val; 
+                    } 
+                    else if (key === 'subject') 
+                    {
+                        console.log(key, val);
+                    } 
+                    else if (val !== '') 
                     {
                         formBody[key] = val; 
                     }
                 });
-                if(nameForm) {
+                if(nameForm) 
+                {
                    delete formBody.page;
                 }
                 if (nameForm === 'callback-form') 
@@ -107,7 +121,6 @@ export const sendForm = ({classForm = '', nameForm = '', addInfo = []}) => {
                                 setTimeout(() => {
                                      text.textContent = 'Мы гарантируем 100% онфиденциальность. Ваша информация не будет распространяться.';
                                 }, 2000);
-                                
                             });
                         }
                     })
@@ -119,7 +132,8 @@ export const sendForm = ({classForm = '', nameForm = '', addInfo = []}) => {
             }
         };
 
-        try {
+        try 
+        {
             if (!form) 
             {
                 throw new Error('Не найдена форма');

@@ -7,6 +7,14 @@ export const validation = () => {
         name.addEventListener('input', (e) => {
             let reg = /[^a-zа-я]/gi;
             e.target.value =  e.target.value.replace(reg, '');
+            if(e.target.value.length < 2) 
+            {
+                name.style.border = '3px solid red';
+            }
+            else 
+            {
+                name.style.border = '';
+            }
         });
     });
 
@@ -14,7 +22,7 @@ export const validation = () => {
         tel.addEventListener('input', (e) => {
             let reg = /[^\d\+\(\)]/g;
             e.target.value =  e.target.value.replace(reg, '');
-            if (e.target.value.length > 12) 
+            if (e.target.value.length > 17 || e.target.value.length < 11) 
             {
                tel.style.border = '3px solid red';
             } 
