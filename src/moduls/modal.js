@@ -10,9 +10,22 @@ export const modal = () => {
      const bigPhoto = docs.querySelector('.big-photo');
      const sertificates = docs.querySelectorAll('.sertificate-document');
      const documentOverlay = docs.querySelectorAll('.document-overlay');
-     
-   /* buttonCall.setAttribute('href', '#');
-     serviceButtons.forEach(serviceButton =>  serviceButton.setAttribute('href', '#'))*/
+
+
+     let disableScroll = function () {
+	let pagePosition = window.scrollY;
+	document.body.classList.add('disable-scroll');
+	document.body.dataset.position = pagePosition;
+	document.body.style.top = -pagePosition + 'px';
+     };
+
+     let enableScroll = function () {
+	let pagePosition = parseInt(document.body.dataset.position, 10);
+	document.body.style.top = 'auto';
+	document.body.classList.remove('disable-scroll');
+	window.scroll({ top: pagePosition, left: 0 });
+	document.body.removeAttribute('data-position');
+     };
 
      function changeDisplay(prop, modal) {
        modal.style.display = prop;
@@ -20,11 +33,13 @@ export const modal = () => {
     }
 
     buttonCall.addEventListener('click', () => {
+        disableScroll();
         changeDisplay('block', headerModal); 
         return false;
     });
 
     services.addEventListener('click', (e) => {
+         disableScroll();
          if (e.target.closest('.service-button')) 
          {
               changeDisplay('block', serviceModal);
@@ -41,10 +56,12 @@ export const modal = () => {
          } 
          else if (e.target.classList.contains('header-modal__close')) 
          {
+              enableScroll();
               changeDisplay('none', headerModal);
          } 
          else if (e.target.classList.contains('services-modal__close')) 
          {
+            enableScroll();
             changeDisplay('none', serviceModal);
          }
     });
@@ -52,11 +69,13 @@ export const modal = () => {
     docs.addEventListener('click', (e) => {
          if (e.target.closest('.sertificate-document')) 
          {
+            disableScroll();
             e.preventDefault();
             changeDisplay('block', bigPhoto);  
          } 
          else if(e.target.classList.contains('close-photo')) 
          {
+              enableScroll();
               changeDisplay('none', bigPhoto);  
          }
     });
