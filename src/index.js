@@ -2,17 +2,18 @@ import { modal } from './moduls/modal';
 import { timer } from './moduls/timer';
 import { scrol } from './moduls/scroll';
 import { calc } from './moduls/calc';
-import { validation } from './moduls/validation';
+import { validate } from './moduls/validation';
 import { sendForm } from './moduls/sendForm';
-import { sliders } from './moduls/sliders';
 import { burger } from './moduls/burger';
-import { sliderProfit } from './moduls/sliderProfit';
+import { maskPhone } from './moduls/maskPhone';
+import slider from './moduls/slider';
 
 modal();
 timer('27 march 2022');
 scrol();
 calc();
-validation();
+slider();
+
 sendForm({
     classForm: '.form-horizontal',
     nameForm: '',
@@ -28,6 +29,15 @@ sendForm({
     classForm: '',
     nameForm: 'application-form'
 });
-sliders();
+
+
 burger();
-sliderProfit();
+
+validate({ selectorInput: '#calc-input', type: 'calc' });
+validate({ selectorInput: 'input[name=fio]', type: 'name' });
+validate({ selectorInput: 'input[name=phone]', type: 'phone' });
+
+maskPhone({
+  selectorInput: 'input[name=phone]',
+  masked: '+7 (___) ___-__-__',
+});

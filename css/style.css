@@ -2008,6 +2008,18 @@ input.error {
   }
 }
 
+.modal-document__overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+
+  background-color: rgba(0, 0, 0, 0.199);
+}
+
 .menu-mobile {
   position: absolute;
   left: 0;
@@ -2035,4 +2047,16 @@ input.error {
 
 .noActiveBenefit {
   display: none;
+  opacity: 0;
+  transition-duration: 2s;
+}
+
+.disappear {
+  opacity: 0;
+  transition-duration: 0.5s;
+}
+
+.appear {
+  opacity: 1;
+  transition-duration: 1s;
 }

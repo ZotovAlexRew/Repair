@@ -1,43 +1,70 @@
-export const validation = () => {
-    const names = document.querySelectorAll('input[name="fio"]');
-    const tels = document.querySelectorAll('input[name="phone"]');
-    const calcInput = document.getElementById('calc-input');
-    
-    names.forEach(name => {
-        name.addEventListener('input', (e) => {
-            let reg = /[^a-zа-я]/gi;
-            e.target.value =  e.target.value.replace(reg, '');
-            if(e.target.value.length < 2) 
-            {
-                name.style.border = '3px solid red';
-            }
-            else 
-            {
-                name.style.border = '';
-            }
-        });
-    });
+export const validate = ({ selectorInput, type }) => {
+  const inputs = document.querySelectorAll(selectorInput);
 
-    tels.forEach(tel => {
-        tel.addEventListener('input', (e) => {
-            let reg = /[^\d\+\(\)]/g;
-            e.target.value =  e.target.value.replace(reg, '');
-            if (e.target.value.length > 17 || e.target.value.length < 11) 
-            {
-               tel.style.border = '3px solid red';
-            } 
-            else 
-            {
-                tel.style.border = '';
-            }
-            e.target.value =e.target.value[0] + e.target.value.slice(1).replace('+', '');
-        });
-    });
+  const patternNumbers = /\D/g;
+  const patternName = /[^a-zA-Zа-яА-Я\s]/g;
+  const patternCapitalize = /(^|\s|\-)[a-zA-Zа-яА-Я]/g;
+  const patternRepeatingSpaces = /\s{2,}/g;
+  const patternStart = /^[\s-]*/g;
+  const patternEnd = /[\s-]*$/g;
+  const patternPhone = /[^\d\+]/g;
 
-    if (calcInput) {
-        calcInput.addEventListener('input', (e) => {
-            let reg = /[^\d]/g;
-            e.target.value =  e.target.value.replace(reg, '');
-        });
+  const setValid = (input) => {
+    input.dataset.valid = true;
+  };
+
+  const formatInput = (e) => {
+    if (!e.target.value) 
+    {
+      return;  
     }
+    
+
+    if (type === 'phone') 
+    {
+      if (e.target.value.match(/\d/g).join('').length > 16) 
+      {
+        return;
+      }
+    }
+    if (type === 'name') {
+      e.target.value = e.target.value
+        .replace(patternRepeatingSpaces, ' ')
+        .replace(patternStart, '')
+        .replace(patternEnd, '')
+        .toLowerCase()
+        .replace(patternCapitalize, (char) => char.toUpperCase());
+      if (e.target.value.match(/[^]/gi).join('').length < 2) 
+      {
+        return;
+      }
+    }
+    setValid(e.target);
+  };
+
+  inputs.forEach((input) => {
+    input.addEventListener('input', (e) => {
+      document.querySelectorAll('.request-status').forEach((item) => {
+        item.textContent = '';
+      });
+      input.dataset.valid = '';
+      input.style.border = '';
+
+      if (type === 'calc') 
+      {
+        e.target.value = e.target.value.replace(patternNumbers, '');
+      } 
+      else if (type === 'name') 
+      {
+        e.target.value = e.target.value.replace(patternName, '');
+      } 
+      else if (type === 'phone') 
+      {
+        e.target.value = e.target.value.replace(patternPhone, '');
+      }
+    });
+    if (type !== 'calc') {
+      input.addEventListener('blur', formatInput);
+    }
+  });
 };
