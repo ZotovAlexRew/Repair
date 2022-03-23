@@ -2,8 +2,8 @@ import { modal } from './moduls/modal';
 import { timer } from './moduls/timer';
 import { scrol } from './moduls/scroll';
 import { calc } from './moduls/calc';
-import { validate } from './moduls/validation';
-import { sendForm } from './moduls/sendForm';
+import { validation } from './moduls/validation';
+import sendForm from './moduls/sendForm';
 import { burger } from './moduls/burger';
 import { maskPhone } from './moduls/maskPhone';
 import slider from './moduls/slider';
@@ -15,27 +15,34 @@ calc();
 slider();
 
 sendForm({
-    classForm: '.form-horizontal',
-    nameForm: '',
-    addInfo: [{
-        id: 'calc-total'
-    }]
+  formId: '.form-horizontal',
+  someElem: [{
+    type: 'input',
+    id: 'calc-total'
+  }]
 });
 sendForm({
-    classForm: '',
-    nameForm: 'callback-form'
+  formId: '.header-modal form',
+  someElem: [{
+    type: 'input',
+    id: 'calc-total'
+  }]
 });
+
 sendForm({
-    classForm: '',
-    nameForm: 'application-form'
+  formId: '.services-modal form',
+  someElem: [{
+    type: 'input',
+    id: 'calc-total'
+  }]
 });
 
 
 burger();
 
-validate({ selectorInput: '#calc-input', type: 'calc' });
-validate({ selectorInput: 'input[name=fio]', type: 'name' });
-validate({ selectorInput: 'input[name=phone]', type: 'phone' });
+validation({ selectorInput: '#calc-input', type: 'calc' });
+validation({ selectorInput: 'input[name=fio]', type: 'name' });
+validation({ selectorInput: 'input[name=phone]', type: 'phone' });
 
 maskPhone({
   selectorInput: 'input[name=phone]',

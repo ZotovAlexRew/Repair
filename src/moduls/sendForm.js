@@ -1,152 +1,109 @@
-export const sendForm = ({classForm = '', nameForm = '', addInfo = []}) => {
-    let forms;
-    const overlay = document.querySelector('.overlay');
-    if (classForm !== '') 
-    {
-        forms = document.querySelectorAll(classForm);
-    } 
-    else 
-    {
-        forms = document.getElementsByName(nameForm);
-    }
+import validate from './validate';
 
-    function afterSendData (modal) {
-        const text = modal.querySelector('p.text-center');
-        text.textContent = 'Ваши данные успешно отправлены!';
-        setTimeout(() => {
-            modal.style.display = 'none';
-            overlay.style.display = 'none';
-        }, 2000);
-        setTimeout(() => {
-            text.textContent = 'Мы гарантируем 100% онфиденциальность. Ваша информация не будет распространяться.';
-        }, 3000);
-    }
-    
-    forms.forEach(form => {
-        const inputs = Array.from(form.querySelectorAll('input'));
-        inputs.forEach(input => input.required = true);
+const sendForm = ({
+  formId,
+  someElem = []
+}) => {
+  const forms = document.querySelectorAll(formId);
 
-        const sendData = (data) => {
-            return fetch('https://jsonplaceholder.typicode.com/posts', {
-                method: 'POST',
-                body: JSON.stringify(data),
-                headers: {
-                    "Content-Type": "application/json" 
-                }}).then(res => res.json());
-        };
+  const statusBlock = document.createElement('div');
 
-        const submitForm = () => {
-            if (inputs.every(input => input.style.border !== '3px solid red')) 
-            {
-                
-                const formData = new FormData(form);
-                const formBody = {};
+  const errorText = 'Ошибка...';
+  const successText = 'Спасибо! Мы с вами свяжемся';
 
-                formData.forEach((val, key) => {
-                    if (key === 'phone') 
-                    {
-                        val = val.split('').map(el => +el).filter(el => el).join('');
-                        formBody[key] = val; 
-                    } 
-                    else if (key === 'subject') 
-                    {
-                        console.log(key, val);
-                    } 
-                    else if (val !== '') 
-                    {
-                        formBody[key] = val; 
-                    }
-                });
-                if(nameForm) 
-                {
-                   delete formBody.page;
-                }
-                if (nameForm === 'callback-form') 
-                {
-                   formBody['reason'] = 'call';
-                } 
-                else if (classForm === '.form-horizontal') 
-                {
-                    formBody['reason'] = 'discount';
-                } 
-                else if (nameForm === 'application-form') 
-                {
-                    formBody['reason'] = 'need a master';
-                }
 
-                addInfo.forEach(elem => {
-                const element = document.getElementById(elem.id);
-                if (element) 
-                {
-                    if (element.value.length >= 1)
-                    {
-                        formBody[elem.id] = element.value;  
-                    }
-                }
-            });
-            
-                sendData(formBody)
-                    .then(() => {
-                        inputs.forEach(input => {
-                            input.value = '';
-                        });
-                        addInfo.forEach(elem => {
-                            const element = document.getElementById(elem.id);
-                            if (element) 
-                            {
-                                const form = document.getElementById('calc');
-                                const inputs = form.querySelectorAll('input');
-                                const selects = form.querySelectorAll('select');
-                                inputs.forEach(input => input.value = '');
-                                selects.forEach(select => select.options[0].selected = true);
-                            }
-                        });
-                    })
-                    .then(() => {
-                        if (nameForm === 'callback-form') 
-                        {
-                            const headerModal = document.querySelector('.header-modal');
-                            afterSendData(headerModal);
-                        } 
-                        else if (nameForm === 'application-form') 
-                        {
-                            const serviceModal = document.querySelector('.services-modal');
-                           afterSendData(serviceModal);
-                        } 
-                        else if (classForm === '.form-horizontal') 
-                        {
-                            let texts = document.querySelectorAll('.help-block');
-                            texts.forEach(text =>{
-                                text.textContent = 'Ваши данные успешно отправлены!';
-                                setTimeout(() => {
-                                     text.textContent = 'Мы гарантируем 100% онфиденциальность. Ваша информация не будет распространяться.';
-                                }, 2000);
-                            });
-                        }
-                    })
-                    .catch(error => console.log(error));
-            } 
-            else 
-            {
-                return;
-            }
-        };
+  const sendData = (data) => {
+    return fetch('https://jsonplaceholder.typicode.com/posts', {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+      }
+    }).then((response) => response.json());
+  };
 
-        try 
-        {
-            if (!form) 
-            {
-                throw new Error('Не найдена форма');
-            }
+  const submitForm = (form) => {
+    const formElements = form.querySelectorAll('input');
+    const formData = new FormData(form);
+    const formBody = {};
 
-            form.addEventListener('submit', (e) => {
-                e.preventDefault();
-                submitForm();
-            });
-        } 
-        catch (error) 
-        {
-            console.log(error.message);
-        }
+
+
+    formData.forEach((val, key) => {
+      formBody[key] = val;
     });
+
+    
+      someElem.forEach(elem => {
+        const element = document.getElementById(elem.id);
+        
+        if(element) {
+          if (elem.type === 'block' && +element.textContent > 0) {
+            formBody[elem.id] = element.textContent;
+          } 
+          else if (elem.type === 'input' && +element.value > 0) 
+          {
+              formBody[elem.id] = element.value;
+          }
+        }
+        
+        
+      });
+  
+    
+
+    if (validate(formElements)) {
+
+      statusBlock.textContent = "";
+
+      form.append(statusBlock);
+
+      sendData(formBody)
+        .then(data => {
+
+       
+          statusBlock.textContent = successText;
+
+          setTimeout(() => form.removeChild(statusBlock), 1500);
+  
+          // setTimeout(() => modalAnimate(300, 1, '.overlay', '.header-modal'), 1500);
+          console.log(data);
+
+
+          formElements.forEach(input => {
+
+            input.value = "";
+            input.classList.remove('error');
+            input.classList.remove('success');
+
+          });
+        })
+        .catch(error => statusBlock.textContent = errorText);
+
+    }
+
+  };
+
+  try 
+  {
+
+    if (forms.length === 0) 
+    {
+        throw new Error('Форма не найдена');
+    }
+
+    forms.forEach(elem => {
+
+      elem.addEventListener('submit', (e) => {
+        e.preventDefault();
+        submitForm(elem);
+      });
+    });
+   
+  } 
+  catch (error) {
+    console.log(error.message);
+  }
 };
+
+export default sendForm;

@@ -1,4 +1,4 @@
-export const validate = ({ selectorInput, type }) => {
+export const validation = ({ selectorInput, type }) => {
   const inputs = document.querySelectorAll(selectorInput);
 
   const patternNumbers = /\D/g;
