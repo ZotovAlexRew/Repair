@@ -1,42 +1,47 @@
 import Swiper, { Navigation } from 'swiper';
 
 const slider = () => {
-
+  
   const swiperBenefits = new Swiper('.benefits-inner', {
    
-    moduls: [Navigation],
+    modules: [Navigation],
     loop: true,
+    slidesPerView: 1,
+    slidesPerGroup: 1,
+    spaceBetween: 7,
+    // Navigation arrows
     navigation: {
-      nextEl: '.benefits__arrow--right',
-      prevEl: '.benefits__arrow--left',
+      nextEl: ".benefits__arrow--right",
+      prevEl: ".benefits__arrow--left",
     },
-  
     breakpoints: {
-      576: {
+      1200: {
         slidesPerView: 3,
-        spaceBetween: 0
+        slidesPerGroup: 1,
       },
-    }
+    },
   });
 
   const swiperSirvice = new Swiper('.service-slider', {
 
-    // configure Swiper to use modules
-    moduls: [Navigation],
-    
+   modules: [Navigation],
     loop: true,
-  navigation: {
-    nextEl: '.services__arrow--right',
-    prevEl: '.services__arrow--left',
-  },
-
-  breakpoints: {
-    576: {
-      slidesPerView: 2,
-      spaceBetween: 20
+    slidesPerView: 1,
+    slidesPerGroup: 1,
+    spaceBetween: 25,
+    // Navigation arrows
+    navigation: {
+      nextEl: ".services__arrow--right",
+      prevEl: ".services__arrow--left",
     },
-  }
+    breakpoints: {
+      1200: {
+        slidesPerView: 2,
+        slidesPerGroup: 1,
+      },
+    },
   });
+  
 
 };
 

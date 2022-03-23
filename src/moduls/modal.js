@@ -39,9 +39,10 @@ export const modal = () => {
     });
 
     services.addEventListener('click', (e) => {
-         disableScroll();
+         
          if (e.target.closest('.service-button')) 
          {
+              disableScroll();
               changeDisplay('block', serviceModal);
          }
          return false;
