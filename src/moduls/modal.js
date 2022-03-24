@@ -12,7 +12,8 @@ export const modal = () => {
      const documentOverlay = docs.querySelectorAll('.document-overlay');
 
 
-     let disableScroll = function () {
+     
+     /*let disableScroll = function () {
 	let pagePosition = window.scrollY;
 	document.body.classList.add('disable-scroll');
 	document.body.dataset.position = pagePosition;
@@ -25,7 +26,7 @@ export const modal = () => {
 	document.body.classList.remove('disable-scroll');
 	window.scroll({ top: pagePosition, left: 0 });
 	document.body.removeAttribute('data-position');
-     };
+     };*/
 
      function changeDisplay(prop, modal) {
        modal.style.display = prop;
@@ -33,7 +34,7 @@ export const modal = () => {
     }
 
     buttonCall.addEventListener('click', () => {
-        disableScroll();
+        document.getElementsByTagName("body")[0].style.overflow = 'hidden';
         changeDisplay('block', headerModal); 
         return false;
     });
@@ -42,7 +43,7 @@ export const modal = () => {
          
          if (e.target.closest('.service-button')) 
          {
-              disableScroll();
+              document.getElementsByTagName("body")[0].style.overflow = 'hidden';
               changeDisplay('block', serviceModal);
          }
          return false;
@@ -57,12 +58,12 @@ export const modal = () => {
          } 
          else if (e.target.classList.contains('header-modal__close')) 
          {
-              enableScroll();
+              document.getElementsByTagName("body")[0].style.overflow = 'scroll';;
               changeDisplay('none', headerModal);
          } 
          else if (e.target.classList.contains('services-modal__close')) 
          {
-            enableScroll();
+            document.getElementsByTagName("body")[0].style.overflow = 'scroll';
             changeDisplay('none', serviceModal);
          }
     });
@@ -70,13 +71,13 @@ export const modal = () => {
     docs.addEventListener('click', (e) => {
          if (e.target.closest('.sertificate-document')) 
          {
-            disableScroll();
+            document.getElementsByTagName("body")[0].style.overflow = 'hidden';
             e.preventDefault();
             changeDisplay('block', bigPhoto);  
          } 
          else if(e.target.classList.contains('close-photo')) 
          {
-              enableScroll();
+              document.getElementsByTagName("body")[0].style.overflow = 'scroll';
               changeDisplay('none', bigPhoto);  
          }
     });
